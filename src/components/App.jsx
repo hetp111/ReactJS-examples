@@ -1,31 +1,43 @@
 import React from "react";
-import Card from "./Card";
-import contacts from "../contacts";
-import Avatar from "./Avatar";
+import Entry from "./Entry";
+import emojipedia from "../emojipedia";
 
-let cardList = [];
+//1. Extract the repeated parts of the App into a Entry component.
+//2. Use props to make the Entry component render different data.
+//3a. Import the emojipedia constant.
+//3b. Map through the emojipedia array and render Entry components.
 
-for (let i = 0; i < contacts.length; i++) {
-    cardList.push(
-        <Card
-            id={contacts[i].id}
-            key={contacts[i].id}//has to be spelled as "key", dont use it yourself
-            name={contacts[i].name}
-            img={contacts[i].imgURL}
-            tel={contacts[i].phone}
-            email={contacts[i].email}
-        />
-    );
+//Emojipedia has 3 entries, so createEntry gets called 3 times.
+//Each time, it passes 1 item from the emojipedia array as a var called emojiTerm.
+
+//var emojiTerm = {
+//   id: 1,
+//   emoji: "💪",
+//   name: "Tense Biceps",
+//   meaning:
+//     "“You can do that!” or “I feel strong!” Arm with tense biceps. Also used in connection with doing sports, e.g. at the gym."
+// }
+
+function createEntry(emojiTerm) {
+  return (
+    <Entry
+      key={emojiTerm.id}
+      emoji={emojiTerm.emoji}
+      name={emojiTerm.name}
+      description={emojiTerm.meaning}
+    />
+  );
 }
 
 function App() {
-    return (
-        <div>
-            <h1 className="heading">My Contacts</h1>
-            <Avatar img="https://pbs.twimg.com/profile_images/744849215675838464/IH0FNIXk.jpg" />
-            {cardList}
-        </div>
-    );
+  return (
+    <div>
+      <h1>
+        <span>emojipedia</span>
+      </h1>
+      <dl className="dictionary">{emojipedia.map(createEntry)}</dl>
+    </div>
+  );
 }
 
 export default App;
