@@ -1,50 +1,42 @@
 import React, { useState } from "react";
+import ToDoItem from "./ToDoItem";
+import InputArea from "./InputArea";
 
 function App() {
-  const [contact, setContact] = useState({
-    fName: "",
-    lName: "",
-    email: ""
-  });
+  const [items, setItems] = useState([]);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  function addItem(inputText) {
+    setItems(prevItems => {
+      return [...prevItems, inputText];
+    });
+  }
 
-    setContact(prevValue => {
-      return {
-        ...prevValue,
-        [name]: value
-      };
+  function deleteItem(id) {
+    setItems(prevItems => {
+      return prevItems.filter((item, index) => {
+        return index !== id;
+      });
     });
   }
 
   return (
     <div className="container">
-      <h1>
-        Hello {contact.fName} {contact.lName}
-      </h1>
-      <p>{contact.email}</p>
-      <form>
-        <input
-          onChange={handleChange}
-          name="fName"
-          value={contact.fName}
-          placeholder="First Name"
-        />
-        <input
-          onChange={handleChange}
-          name="lName"
-          value={contact.lName}
-          placeholder="Last Name"
-        />
-        <input
-          onChange={handleChange}
-          name="email"
-          value={contact.email}
-          placeholder="Email"
-        />
-        <button>Submit</button>
-      </form>
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+      <InputArea onAdd={addItem} />
+      <div>
+        <ul>
+          {items.map((todoItem, index) => (
+            <ToDoItem
+              key={index}
+              id={index}
+              text={todoItem}
+              onChecked={deleteItem}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
