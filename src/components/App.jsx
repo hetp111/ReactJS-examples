@@ -1,23 +1,34 @@
 import React, { useState } from "react";
 
 function App() {
-  setInterval(updateTime, 5000);
+    const [name, setName] = useState("");
+    const [headingText, setHeading] = useState("");
 
-  const now = new Date().toLocaleTimeString();
+    function handleChange(event) {
+        console.log(event.target.value);
+        setName(event.target.value);
+        setHeading(name+"?");
+    }
 
-  const [time, setTime] = useState(now);
+    function handleClick(event) {
+        setHeading(name+"!");
+        event.preventDefault();
+    }
 
-  function updateTime() {
-    const newTime = new Date().toLocaleTimeString();
-    setTime(newTime);
-  }
-
-  return (
-    <div className="container">
-      <h1>{time}</h1>
-      <button onClick={updateTime}>Get Time</button>
-    </div>
-  );
+    return (
+        <div className="container">
+            <h1>Hello {headingText}</h1>
+            <form onSubmit={handleClick}>
+                <input
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="What's your name?"
+                    value={name}
+                />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    );
 }
 
 export default App;
