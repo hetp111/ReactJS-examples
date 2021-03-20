@@ -1,14 +1,23 @@
-import React from "react";
-import Form from "./Form";
-
-var userIsRegistered = true;
+import React, { useState } from "react";
 
 function App() {
-    return (
-        <div className="container">
-            <Form isRegistered={userIsRegistered} />
-        </div>
-    );
+  setInterval(updateTime, 5000);
+
+  const now = new Date().toLocaleTimeString();
+
+  const [time, setTime] = useState(now);
+
+  function updateTime() {
+    const newTime = new Date().toLocaleTimeString();
+    setTime(newTime);
+  }
+
+  return (
+    <div className="container">
+      <h1>{time}</h1>
+      <button onClick={updateTime}>Get Time</button>
+    </div>
+  );
 }
 
 export default App;
